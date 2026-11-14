@@ -2,15 +2,19 @@ name: Pipeline de CI - targeting-service
 
 on:
   push:
-    branches: [main]
+    branches: [deploy/bruno-891376974889]
   pull_request:
-    branches: [main]
+    branches: [deploy/bruno-891376974889]
 
 jobs:
   ci:
-    uses: FIAP-Teach-Challenge-2/toggle-master-ci/.github/workflows/reusable-ci-python.yml@main
+    uses: zBrunoBessa/toggle-master-ci/.github/workflows/reusable-ci-python.yml@deploy/bruno-891376974889
     with:
       service-name: targeting-service
       ecr-repository: togglemaster/targeting-service
       needs-postgres: true
-    secrets: inherit
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.BRUNO_AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.BRUNO_AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.BRUNO_AWS_SESSION_TOKEN }}
+      GITOPS_TOKEN: ${{ secrets.BRUNO_GITOPS_TOKEN }}
